@@ -2,7 +2,6 @@
 <%@ page import="com.food.model.*,com.food.DAO.*,com.food.DAOimplents.*, java.util.List" %>
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="utf-8">
     <title>Hotelier - Hotel HTML Template</title>
