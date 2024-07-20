@@ -51,11 +51,6 @@ public void init() throws ServletException {
 		address = request.getParameter("address");
 		
 		
-		System.out.println(username);
-		System.out.println(email);
-		System.out.println(password);
-		System.out.println(role);
-		System.out.println(address);
 		
 		User user = new  User(username,password,email,address,role);
 		userDAO.addUser(user);

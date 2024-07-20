@@ -123,7 +123,6 @@
         if (menus != null && !menus.isEmpty()) {
             for (Menu menu : menus) {
    	    %>                 
-                      
                                 <div class="col-lg-6">
                                     <div class="d-flex align-items-center">
                                         <img class="flex-shrink-0 img-fluid rounded" src="img/menu-1.jpg" alt="" style="width: 80px;">
@@ -134,13 +133,13 @@
                                             </h5>
                                             <div class="d-flex justify-content-between">
                                             <span><small class="fst-italic"><%= menu.getDescription() %></small></span>
-                                            <span><a class="btn btn-sm btn-dark rounded py-2 px-4" href="">Add</a></span>
+                                            <span><a class="btn btn-sm btn-dark rounded py-2 px-4" href="Cart?menuId=<%menu.getMenu_id();%>">Add</a></span>
                                             </div>      
                                         </div>
                                     </div>
                                 </div>
 
- 							<% 
+ 							<%
                                     }
                                 } 
                                 
