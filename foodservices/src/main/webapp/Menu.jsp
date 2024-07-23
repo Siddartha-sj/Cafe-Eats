@@ -133,7 +133,7 @@
                                             </h5>
                                             <div class="d-flex justify-content-between">
                                             <span><small class="fst-italic"><%= menu.getDescription() %></small></span>
-                                            <span><a class="btn btn-sm btn-dark rounded py-2 px-4" href="Cart?menuId=<%menu.getMenu_id();%>">Add</a></span>
+                                            <span><a class="btn btn-sm btn-dark rounded py-2 px-4" href="Cart?menuId=<%menu.getMenu_id();%>" name = "action" value ="add">Add</a></span>
                                             </div>      
                                         </div>
                                     </div>

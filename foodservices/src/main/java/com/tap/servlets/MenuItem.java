@@ -31,6 +31,7 @@ public class MenuItem extends HttpServlet {
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
+		
 		int restaurantId = Integer.parseInt(req.getParameter("restaurantId"));
 		MenuDAOImp menus = new MenuDAOImp();
 		List<Menu> menulist = menus.getAllMenusByRestuarant(restaurantId);

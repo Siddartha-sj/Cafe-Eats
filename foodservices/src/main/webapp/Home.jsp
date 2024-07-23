@@ -86,7 +86,7 @@
                                 <!-- edited parts-->
                                 <%   
                                 User loggedinuser = (User)session.getAttribute("loggedin");
-                                System.out.print(session.getAttribute("loggedin"));
+                                System.out.println(session.getAttribute("loggedin"));
                                 if(loggedinuser != null) {
                             %>
                                 <h1>Welcome <%= loggedinuser.getUser_name() %></h1>

@@ -51,45 +51,70 @@ public class CartServlet extends HttpServlet {
 		{
 			addItemToCart(req,cart);
 		}
-		else if(update.)
+		else if("update".equals(action))
 		{
-			
+			updateCartItem(req, cart);
 		}
+		else if("remove".equals(action))
+		{
+			removeItemFromCart(req, cart);
+		}
+		
+		
+		session.setAttribute("cart", cart);
+		resp.sendRedirect("Cart.jsp");
+		
 		
 		
 		
 	}
+	
+	
+	
+	
+	
+	
+	
 	
 	
 	
 	private void addItemToCart(HttpServletRequest req,Cart cart)
 	{
-		int itemId= Integer.parseInt(req.getParameter("itemId"));
+		int menuId= Integer.parseInt(req.getParameter("menuId"));
 		int quantity = Integer.parseInt(req.getParameter("quantity"));
 		
 		MenuDAOImp  menuDAO = new MenuDAOImp();
-		Menu menuitem =  menuDAO.getMenu(itemId);
+		Menu menu =  menuDAO.getMenu(menuId);
 		
 		
 		HttpSession session = req.getSession();
-		session.setAttribute("restuarantId",menuitem.getRestaurant_id());
+		session.setAttribute("restuarantId",menu.getRestaurant_id());
 		
-		if(menuitem != null)
+		if(menu != null)
 		{
-			CartItem item = new CartItem(menuitem.getMenu_id(), menuitem.getRestaurant_id(),menuitem.getItem_name(),quantity,menuitem.getPrice());
+			CartItem item = new CartItem(menu.getMenu_id(), menu.getRestaurant_id(),menu.getItem_name(),quantity,menu.getPrice());
 			cart.addItem(item);
 		}
-		
-		 
-		
 		
 		
 	}
 	
 	
 	
+	public void updateCartItem(HttpServletRequest req, Cart cart)
+	{
+		int menuId= Integer.parseInt(req.getParameter("menuId"));
+		int quantity = Integer.parseInt(req.getParameter("quantity"));
+		
+		cart.updateItem(menuId,quantity);
+	}
 	
 	
+	public void removeItemFromCart(HttpServletRequest req, Cart cart)
+	{
+		int menuId= Integer.parseInt(req.getParameter("menuId"));
+		cart.removeItem(menuId);
+	}
 	
 	
 	
