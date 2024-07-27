@@ -80,8 +80,10 @@ public class CartServlet extends HttpServlet {
 	
 	private void addItemToCart(HttpServletRequest req,Cart cart)
 	{
+
 		int menuId= Integer.parseInt(req.getParameter("menuId"));
 		int quantity = Integer.parseInt(req.getParameter("quantity"));
+		
 		
 		MenuDAOImp  menuDAO = new MenuDAOImp();
 		Menu menu =  menuDAO.getMenu(menuId);

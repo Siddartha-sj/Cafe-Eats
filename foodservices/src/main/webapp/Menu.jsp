@@ -7,6 +7,7 @@
 <head>
     <meta charset="utf-8">
     <title>Restoran - Bootstrap Restaurant Template</title>
+    
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -131,13 +132,42 @@
                                                 <span><%= menu.getItem_name() %></span>
                                                 <span class="text-primary">$<%= menu.getPrice() %></span>  
                                             </h5>
+                                            
                                             <div class="d-flex justify-content-between">
                                             <span><small class="fst-italic"><%= menu.getDescription() %></small></span>
-                                            <span><a class="btn btn-sm btn-dark rounded py-2 px-4" href="Cart?menuId=<%menu.getMenu_id();%>" name = "action" value ="add">Add</a></span>
-                                            </div>      
+                                            <input type="hidden" name="menuId" value="<%=menu.getMenu_id()%>">
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            
+                                            <div class="d-flex justify-content-end">
+                                            
+                                            <form action="Cart">
+											   <input type="hidden" name="menuId" value="<%=menu.getMenu_id()%>">
+											   <span>Quantity: <input type="number" name="quantity" value="1" min="1" class=></span>
+											   <input type="submit" name="action" value="add" class="btn btn-sm btn-dark rounded py-2 px-4">
+											   </form>
+                   
+										</div>
+
+                                            
+                                        
+                                           
+                                           
+                                           
+                                           
+                                          
+                                            </div>
+                                                 
                                         </div>
                                     </div>
                                 </div>
+
+				
+           
+               
 
  							<%
                                     }
@@ -239,8 +269,14 @@
     <script src="lib/tempusdominus/js/moment.min.js"></script>
     <script src="lib/tempusdominus/js/moment-timezone.min.js"></script>
     <script src="lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
+    
+    
+    
+    
+    
 </body>
 </html>
