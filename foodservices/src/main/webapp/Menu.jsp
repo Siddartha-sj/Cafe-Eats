@@ -7,7 +7,7 @@
 <head>
     <meta charset="utf-8">
     <title>Restoran - Bootstrap Restaurant Template</title>
-    
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="" name="keywords">
     <meta content="" name="description">
@@ -34,6 +34,36 @@
 
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
+     <style>
+        .btn-containercart {
+            display: flex;
+            gap: 10px;
+            margin-right: 20px;
+        }
+        .btncart {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: #333;
+            color: #fff;
+            cursor: pointer;
+        }
+        .btn-secondarycart {
+            display: inline-block;
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: #333;
+            color: #fff;
+            cursor: pointer;
+        }
+        #submitButtoncart {
+            background-color: #180354ec; /* Green color */
+        }
+    </style>
 </head>
 
 <body>
@@ -135,22 +165,29 @@
                                             
                                             <div class="d-flex justify-content-between">
                                             <span><small class="fst-italic"><%= menu.getDescription() %></small></span>
-                                            <input type="hidden" name="menuId" value="<%=menu.getMenu_id()%>">
                                             
+                                            	
                                             
                                             
                                             
                                             
                                             
                                             <div class="d-flex justify-content-end">
-                                            
-                                            <form action="Cart">
-											   <input type="hidden" name="menuId" value="<%=menu.getMenu_id()%>">
-											   <span>Quantity: <input type="number" name="quantity" value="1" min="1" class=></span>
-											   <input type="submit" name="action" value="add" class="btn btn-sm btn-dark rounded py-2 px-4">
-											   </form>
-                   
+										    <div class="btn-containercart">
+										        <button id="incrementButton" class="btncart">+</button>
+										        <button id="dynamicButton" class="btncart">1</button>
+										        <button id="decrementButton" class="btn btn-secondarycart">-</button>
+										    </div>
+										    
+										    <form id="cartForm" action="Cart" method="post">
+										        <input type="hidden" id="quantityField" name="quantity" value="1">
+										        <input type="hidden" name="menuId" value="<%= menu.getMenu_id() %>">
+										        <input type="hidden" id="actionField" name="action" value="add">
+										        <button id="submitButton" class="btncart">Submit</button>
+										    </form>
 										</div>
+
+
 
                                             
                                         
@@ -273,6 +310,50 @@
 
     <!-- Template Javascript -->
     <script src="js/main.js"></script>
+    
+    <script>
+    (function ($) {
+        "use strict";
+
+        var MIN_VALUE = 1; // Minimum allowed value
+
+        // Function to update button text
+        var updateButtonValue = function (increment) {
+            var button = $('#dynamicButton');
+            var currentValue = parseInt(button.text(), 10);
+
+            // Check if currentValue is a number
+            if (isNaN(currentValue)) {
+                console.warn("Current button text is not a number. Resetting to " + MIN_VALUE + ".");
+                currentValue = MIN_VALUE; // Default value
+            }
+
+            // Update the value with bounds check
+            var newValue = increment ? currentValue + 1 : Math.max(MIN_VALUE, currentValue - 1);
+            button.text(newValue);
+
+            // Update the hidden input field
+            $('#quantityField').val(newValue);
+        };
+
+        // Bind event handlers to buttons
+        $(document).ready(function () {
+            $('#incrementButton').on('click', function () {
+                updateButtonValue(true);
+            });
+            $('#decrementButton').on('click', function () {
+                updateButtonValue(false);
+            });
+
+            $('#submitButton').on('click', function () {
+                // Update actionField to "add" if needed
+                $('#actionField').val('add');
+            });
+        });
+
+    })(jQuery);
+
+    </script>
     
     
     

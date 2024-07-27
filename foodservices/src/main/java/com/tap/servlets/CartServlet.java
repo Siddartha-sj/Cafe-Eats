@@ -47,6 +47,7 @@ public class CartServlet extends HttpServlet {
 		}
 		
 		String action=req.getParameter("action");
+		System.out.println(action);
 		if("add".equals(action))
 		{
 			addItemToCart(req,cart);
@@ -84,7 +85,7 @@ public class CartServlet extends HttpServlet {
 		int menuId= Integer.parseInt(req.getParameter("menuId"));
 		int quantity = Integer.parseInt(req.getParameter("quantity"));
 		
-		
+		System.out.println(quantity);
 		MenuDAOImp  menuDAO = new MenuDAOImp();
 		Menu menu =  menuDAO.getMenu(menuId);
 		
