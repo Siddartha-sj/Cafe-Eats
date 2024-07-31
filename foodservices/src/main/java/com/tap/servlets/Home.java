@@ -41,6 +41,7 @@ public class Home extends HttpServlet {
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
      List<Restaurant> restaurantlist = restaurant.getAllRestuarant();
 		
+     	
 		req.setAttribute("restaurantlist", restaurantlist);
 		RequestDispatcher dispatcher = req.getRequestDispatcher("Home.jsp");
 		dispatcher.include(req, resp);

@@ -148,72 +148,51 @@
                     <div class="tab-content">
                         <div id="tab-1" class="tab-pane fade show p-0 active">
                             <div class="row g-4">
-        <% 
-        List<Menu> menus = (List<Menu>) request.getAttribute("menulist");
+						       <% 
+								    List<Menu> menus = (List<Menu>) request.getAttribute("menulist");
+								
+								    if (menus != null && !menus.isEmpty()) {
+								        for (Menu menu : menus) {
+								%>
+								        <div class="col-lg-6">
+								            <div class="d-flex align-items-center">
+								                <img class="flex-shrink-0 img-fluid rounded" src="img/menu-1.jpg" alt="" style="width: 80px;">
+								                <div class="w-100 d-flex flex-column text-start ps-4">
+								                    <h5 class="d-flex justify-content-between border-bottom pb-2">
+								                        <span><%= menu.getItem_name() %></span>
+								                        <span class="text-primary">$<%= menu.getPrice() %></span>
+								                    </h5>
+								                    
+								                    <div class="d-flex justify-content-between">
+								                        <span><small class="fst-italic"><%= menu.getDescription() %></small></span>
+								                        
+								                        <div class="d-flex justify-content-end">
+													    <div class="btn-containercart">
+													        <button class="incrementButton btncart" data-menu-id="<%= menu.getMenu_id() %>">+</button>
+													        <button class="dynamicButton btncart" data-menu-id="<%= menu.getMenu_id() %>">1</button>
+													        <button class="decrementButton btn btn-secondarycart" data-menu-id="<%= menu.getMenu_id() %>">-</button>
+													    </div>
+													    
+													    <form class="cartForm" action="Cart" method="post">
+													        <input type="number" class="quantityField" name="quantity" value="1" min="1">
+													        <input type="hidden" name="restaurantid" value="<%= menu.getRestaurant_id() %>" >
+													        <input type="hidden" name="menuId" value="<%= menu.getMenu_id() %>">
+													        <input type="hidden" class="actionField" name="action" value="add">
+													        <button class="submitButton btncart" type="submit">Add</button>
+													    </form>
+													</div>
 
-        if (menus != null && !menus.isEmpty()) {
-            for (Menu menu : menus) {
-   	    %>                 
-                                <div class="col-lg-6">
-                                    <div class="d-flex align-items-center">
-                                        <img class="flex-shrink-0 img-fluid rounded" src="img/menu-1.jpg" alt="" style="width: 80px;">
-                                        <div class="w-100 d-flex flex-column text-start ps-4">
-                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                                <span><%= menu.getItem_name() %></span>
-                                                <span class="text-primary">$<%= menu.getPrice() %></span>  
-                                            </h5>
-                                            
-                                            <div class="d-flex justify-content-between">
-                                            <span><small class="fst-italic"><%= menu.getDescription() %></small></span>
-                                            
-                                            	
-                                            
-                                            
-                                            
-                                            
-                                            
-                                            <div class="d-flex justify-content-end">
-										    <div class="btn-containercart">
-										        <button id="incrementButton" class="btncart">+</button>
-										        <button id="dynamicButton" class="btncart">1</button>
-										        <button id="decrementButton" class="btn btn-secondarycart">-</button>
-										    </div>
-										    
-										    <form id="cartForm" action="Cart" method="post">
-										        <input type="hidden" id="quantityField" name="quantity" value="1">
-										        <input type="hidden" name="menuId" value="<%= menu.getMenu_id() %>">
-										        <input type="hidden" id="actionField" name="action" value="add">
-										        <button id="submitButton" class="btncart">Submit</button>
-										    </form>
-										</div>
+								                    </div>
+								                </div>
+								            </div>
+								        </div>
+								<% 
+								        }
+								    } else { 
+								%>
+								    <p>Items not available at the moment.</p>
+								<% } %>
 
-
-
-                                            
-                                        
-                                           
-                                           
-                                           
-                                           
-                                          
-                                            </div>
-                                                 
-                                        </div>
-                                    </div>
-                                </div>
-
-				
-           
-               
-
- 							<%
-                                    }
-                                } 
-                                
-                                else { 
-                            %>
-                                    <p> Items not available at the moment.</p>
-                            <% } %>
                               
                              
                                
@@ -312,14 +291,14 @@
     <script src="js/main.js"></script>
     
     <script>
+   
     (function ($) {
         "use strict";
 
         var MIN_VALUE = 1; // Minimum allowed value
 
-        // Function to update button text
-        var updateButtonValue = function (increment) {
-            var button = $('#dynamicButton');
+        // Function to update button text and hidden input field
+        var updateButtonValue = function (button, increment) {
             var currentValue = parseInt(button.text(), 10);
 
             // Check if currentValue is a number
@@ -332,26 +311,37 @@
             var newValue = increment ? currentValue + 1 : Math.max(MIN_VALUE, currentValue - 1);
             button.text(newValue);
 
-            // Update the hidden input field
-            $('#quantityField').val(newValue);
+            // Update the hidden input field in the corresponding form
+            var menuId = button.data('menu-id');
+            $('.cartForm').each(function() {
+                var form = $(this);
+                if (form.find('input[name="menuId"]').val() === menuId) {
+                    form.find('.quantityField').val(newValue);
+                }
+            });
         };
 
         // Bind event handlers to buttons
         $(document).ready(function () {
-            $('#incrementButton').on('click', function () {
-                updateButtonValue(true);
-            });
-            $('#decrementButton').on('click', function () {
-                updateButtonValue(false);
+            $(document).on('click', '.incrementButton', function () {
+                updateButtonValue($(this).siblings('.dynamicButton'), true);
             });
 
-            $('#submitButton').on('click', function () {
-                // Update actionField to "add" if needed
-                $('#actionField').val('add');
+            $(document).on('click', '.decrementButton', function () {
+                updateButtonValue($(this).siblings('.dynamicButton'), false);
+            });
+
+            $(document).on('click', '.submitButton', function () {
+                var form = $(this).closest('form');
+                var menuId = form.find('input[name="menuId"]').val();
+                var quantity = form.find('.quantityField').val();
+                console.log('Form is being submitted with menuId:', menuId, 'and quantity:', quantity);
             });
         });
 
     })(jQuery);
+  
+
 
     </script>
     

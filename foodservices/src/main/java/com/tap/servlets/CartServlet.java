@@ -1,6 +1,7 @@
 package com.tap.servlets;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 
@@ -30,14 +31,38 @@ public class CartServlet extends HttpServlet {
         super();
         // TODO Auto-generated constructor stub
     }
-
+    
 	
 	@Override
 	protected void service(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		
-	
+		 List<CartItem> menus = new ArrayList<>();
+		    
+		    // Retrieve parameters
+		    String quantity = req.getParameter("quantity");
+		    String menuId = req.getParameter("menuId");
+		    String action = req.getParameter("action");
+		    int restaurantId = Integer.parseInt(req.getParameter("restaurantid"));
+		    
+		    HttpSession session = req.getSession();
+		    session.setAttribute("restaurantId", restaurantId);
+		    
+		   //System.out.println(quantity);
+		   //System.out.println(menuId);
+		   //System.out.println(action);
+		   
+		    // Add to a list (you may need to adapt this part based on your actual needs)
+		    if (quantity != null && menuId != null && action != null) {
+		    	CartItem cartitemgpt = new CartItem();
+		    	cartitemgpt.setItem_id(Integer.parseInt(menuId));
+		    	cartitemgpt.setQuantity(Integer.parseInt(quantity));
+		        menus.add(cartitemgpt);
+		    }
+		    
+		    
 		
-		HttpSession session =  req.getSession();
+		
+		session.setAttribute("cartMenus", menus);
 		Cart cart = (Cart)session.getAttribute("cart");
 		
 		if(cart == null)
@@ -46,8 +71,8 @@ public class CartServlet extends HttpServlet {
 			session.setAttribute("cart", cart);
 		}
 		
-		String action=req.getParameter("action");
-		System.out.println(action);
+		
+		
 		if("add".equals(action))
 		{
 			addItemToCart(req,cart);
@@ -85,7 +110,6 @@ public class CartServlet extends HttpServlet {
 		int menuId= Integer.parseInt(req.getParameter("menuId"));
 		int quantity = Integer.parseInt(req.getParameter("quantity"));
 		
-		System.out.println(quantity);
 		MenuDAOImp  menuDAO = new MenuDAOImp();
 		Menu menu =  menuDAO.getMenu(menuId);
 		

@@ -1,6 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
-<%@ page import="com.food.model.*,com.food.DAO.*,com.food.DAOimplents.*, java.util.List" %>
+<%@ page import="com.food.model.*,com.food.DAO.*,com.food.DAOimplents.*, java.util.List, java.util.ArrayList,java.util.Enumeration" %>
 <!DOCTYPE html>
 <html>
 <head>
@@ -29,9 +29,10 @@
 
 <form action="Cart">
 
-<input name = "menuId" value = "<%= item.getItem_id()%>">
-<label>Quantity: <input type="number" name = "quantity" value="<%= item.getQuantity() %>">
-</label>
+
+Quantity: <input type="number" name = "quantity" value="<%= item.getQuantity() %>" min="1">
+
+<input type="hidden" name = "menuId" value = "<%= item.getItem_id()%>">
 <input type ="submit" name ="action" value = "update" class ="update-btn">
 <input type ="submit" name ="action" value = "remove" class ="update-btn">
 
